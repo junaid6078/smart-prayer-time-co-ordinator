@@ -30,13 +30,9 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           CustomCard(height: height * 0.3, width: width),
-          Card(
-            elevation: 0,
-            color: Colors.white,
-            child: Text(
-              "Coming Prayer Times",
-              style: TextStyle(fontSize: height * 0.02),
-            ),
+          Text(
+            "Coming Prayer Times",
+            style: TextStyle(fontSize: height * 0.02),
           ),
           const PrayerTimeVaryList(),
           // PrayerTimingList(),
@@ -356,46 +352,6 @@ class CustomCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class PrayerTimingList extends StatelessWidget {
-  late Future<List<PrayerTiming>> prayerTimings;
-
-  PrayerTimingList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<PrayerTiming>>(
-      future: getAllPrayerTimings(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('No prayer timings available.'),
-          );
-        } else {
-          final prayerTimings = snapshot.data;
-
-          return Card(
-            color: Colors.teal.shade300,
-            elevation: 3,
-            margin: const EdgeInsets.all(8),
-            child: ListTile(
-              title: Text('Date: ${prayerTimings![0].date}'),
-            ),
-          );
-        }
-      },
     );
   }
 }

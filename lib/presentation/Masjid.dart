@@ -108,12 +108,6 @@ class _MasjidPageState extends State<MasjidPage> {
                 ),
                 // Add more details or widgets as needed
               ],
-              onExpansionChanged: (bool expanded) {
-                setState(() {
-                  _expandedIndex = expanded ? index : -1;
-                });
-              },
-              initiallyExpanded: _expandedIndex == index,
             ),
           );
         },

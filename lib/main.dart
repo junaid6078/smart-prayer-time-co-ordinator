@@ -46,13 +46,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue, // Customize the background color
+      backgroundColor: Colors.teal, // Customize the background color
       body: Center(
         child: Text(
-          'Your App',
+          'Smart Prayer Time Coordinator',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 30.0,
+            fontSize: 34.0,
             color: Colors.white,
           ),
         ),
