@@ -18,7 +18,13 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     // ToDayPage(),
     // ProfilePage(),
-    MasjidPage(),
+    MasjidPage(
+      fjr: '12:00',
+      zhr: '12:00',
+      asr: '12:00',
+      mgrb: '12:00',
+      isha: '12:00',
+    ),
   ];
 
   @override
@@ -50,4 +56,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

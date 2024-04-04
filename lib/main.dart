@@ -16,7 +16,47 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Simulate a delay to show the splash screen for 2 seconds
+    Future.delayed(
+      Duration(seconds: 2),
+      () {
+        // Navigate to the next screen after 2 seconds
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue, // Customize the background color
+      body: Center(
+        child: Text(
+          'Your App',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30.0,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }
