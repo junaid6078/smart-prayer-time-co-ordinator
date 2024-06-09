@@ -5,6 +5,7 @@ CREATE TABLE masjidinform (
     mas_lng DECIMAL(11, 8) NOT NULL,
     mas_address VARCHAR(255) NOT NULL
 );
+
 INSERT INTO masjidinform (mas_id,mas_name, mas_lat, mas_lng, mas_address) 
 VALUES (001, 'Jamiya Masjid Madina', 24.93166165, 67.10522800, 'Block 7 Gulshan-e-Iqbal, Karachi, Karachi City, Sindh, Pakistan'),
        (002, 'Jamia Masjid-e-Quba', 24.92767765, 67.10101268, 'Block 7 Gulshan-e-Iqbal, Karachi, Karachi City, Sindh, Pakistan'),
@@ -20,4 +21,3 @@ VALUES (001, 'Jamiya Masjid Madina', 24.93166165, 67.10522800, 'Block 7 Gulshan-
        (012, 'Jama Masjid Rabbani',24.933214786477826, 67.09878552066236,'Block 4 Gulshan-e-Iqbal, Karachi, Karachi City, Sindh 75300, Pakistan');
 
 select * from masjidinform;
-
