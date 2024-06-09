@@ -2,19 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class MasjidPage extends StatefulWidget {
-  final String fjr;
-  final String zhr;
-  final String asr;
-  final String mgrb;
-  final String isha;
-  const MasjidPage({
-    Key? key,
-    required this.fjr,
-    required this.zhr,
-    required this.asr,
-    required this.mgrb,
-    required this.isha,
-  }) : super(key: key);
+  const MasjidPage({Key? key,}) : super(key: key);
 
   @override
   State<MasjidPage> createState() => _MasjidPageState();
@@ -25,6 +13,11 @@ class _MasjidPageState extends State<MasjidPage> {
 
   @override
   Widget build(BuildContext context) {
+    String fjr = "12:00";
+    String zhr = "12:00";
+    String asr = "12:00";
+    String mgrb = "12:00";
+    String isha = "12:00";
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -35,7 +28,6 @@ class _MasjidPageState extends State<MasjidPage> {
         ),
       ),
       body: ListView.builder(
-        physics: ScrollPhysics(),
         itemCount: 10,
         itemBuilder: (context, index) {
           return Card(
@@ -67,44 +59,40 @@ class _MasjidPageState extends State<MasjidPage> {
                 ),
               ),
               children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Fajar: ${widget.fjr}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Zuhar: ${widget.zhr}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Asr: ${widget.asr}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Magrib: ${widget.mgrb}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Isha: ${widget.isha}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Fajar: ${fjr}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Zuhar: ${zhr}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Asr: ${asr}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Magrib: ${mgrb}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Isha: ${isha}",
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
                 // Add more details or widgets as needed
               ],

@@ -9,9 +9,6 @@ class AboutTodayPage extends StatefulWidget {
   final String mgrb;
   final String isha;
   final String weekday;
-  final String hijridate;
-  final String hijrimonth;
-  final String hijriyear;
 
   AboutTodayPage(
       {super.key,
@@ -21,10 +18,7 @@ class AboutTodayPage extends StatefulWidget {
       required this.asr,
       required this.mgrb,
       required this.isha,
-      required this.weekday,
-      required this.hijridate,
-      required this.hijrimonth,
-      required this.hijriyear});
+      required this.weekday});
 
   @override
   State<AboutTodayPage> createState() => _AboutTodayPageState();
@@ -67,19 +61,19 @@ class _AboutTodayPageState extends State<AboutTodayPage> {
             height: 25,
           ),
           ListTile(
-            title: Text('fajr : \t\t\t\t\t' + widget.fjr),
+            title: Text('fajr : \t\t\t\t\t\t\t\t\t\t' + widget.fjr),
           ),
           ListTile(
-            title: Text('zuhr : \t\t\t\t\t' + widget.zhr),
+            title: Text('zuhr : \t\t\t\t\t\t\t\t' + widget.zhr),
           ),
           ListTile(
-            title: Text('asr : \t\t\t\t\t' + widget.asr),
+            title: Text('asr : \t\t\t\t\t\t\t\t\t\t\t\t' + widget.asr),
           ),
           ListTile(
-            title: Text('maghrib : \t\t\t\t\t' + widget.mgrb),
+            title: Text('maghrib : \t\t\t' + widget.mgrb),
           ),
           ListTile(
-            title: Text('isha : \t\t\t\t\t' + widget.isha),
+            title: Text('isha : \t\t\t\t\t\t\t\t\t\t' + widget.isha),
           ),
         ],
       ),

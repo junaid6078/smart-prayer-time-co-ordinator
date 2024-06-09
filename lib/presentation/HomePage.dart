@@ -1,11 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/Domain/Services/prayertimevary.dart';
 import 'package:fyp/presentation/TodayDetailPage.dart';
-import 'dart:async';
 import 'package:prayers_times/prayers_times.dart';
 import 'package:intl/intl.dart';
-import '../Domain/Entity/PrayerTiming.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,40 +32,9 @@ class _HomePageState extends State<HomePage> {
             "Coming Prayer Times",
             style: TextStyle(fontSize: height * 0.02),
           ),
-          const PrayerTimeVaryList(),
+          PrayerTimeVaryList(),
           // PrayerTimingList(),
         ],
-      ),
-    );
-  }
-}
-
-class PrayerTimeVaryList extends StatelessWidget {
-  const PrayerTimeVaryList({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    String start = "12:00";
-    String end = "12:00";
-
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 30,
-        itemBuilder: (context, index) {
-          DateTime now = DateTime.now().add(Duration(days: index));
-          String formattedDate = DateFormat('dd MMM').format(now);
-          return Card(
-            color: Colors.teal.shade300,
-            elevation: 3,
-            child: ListTile(
-              title: Text("$formattedDate\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                  "Start : "
-                  "$start\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                  "End : "
-                  "$end"),
-            ),
-          );
-        },
       ),
     );
   }
@@ -85,8 +52,6 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color startpray = Colors.green;
-    Color endpray = Colors.red;
     double startfontsize = height * 0.08;
     double timefontsize = height * 0.1;
     // Define the geographical coordinates for the location
@@ -162,9 +127,6 @@ class CustomCard extends StatelessWidget {
                       isha: TimeOfDay.fromDateTime(prayerTimes.ishaStartTime!)
                           .format(context),
                       weekday: DateTime.now().weekday.toString(),
-                      hijridate: '12',
-                      hijrimonth: '12',
-                      hijriyear: '2000',
                     ),
                   ),
                 );
@@ -193,16 +155,16 @@ class CustomCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: timefontsize,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                  color: Colors.green,
                                 ),
                               )
-                            : current == "maghrib"
+                            : prayerTimes.currentPrayer() == "maghrib"
                                 ? AutoSizeText(
                                     '${TimeOfDay.fromDateTime(prayerTimes.maghribStartTime!).format(context)}',
                                     style: TextStyle(
                                       fontSize: timefontsize,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                      color: Colors.green,
                                     ),
                                   )
                                 : prayerTimes.currentPrayer() == "asr"
@@ -211,7 +173,7 @@ class CustomCard extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: timefontsize,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                                          color: Colors.green,
                                         ),
                                       )
                                     : prayerTimes.currentPrayer() == "dhuhr"
@@ -220,7 +182,7 @@ class CustomCard extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: timefontsize,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.black,
+                                              color: Colors.green,
                                             ),
                                           )
                                         : prayerTimes.currentPrayer() == "fajr"
@@ -280,7 +242,7 @@ class CustomCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: timefontsize,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                                  color: Colors.red,
                                 ),
                               )
                             : prayerTimes.currentPrayer() == "maghrib"
@@ -307,7 +269,7 @@ class CustomCard extends StatelessWidget {
                                             style: TextStyle(
                                               fontSize: timefontsize,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.black,
+                                              color: Colors.red,
                                             ),
                                           )
                                         : prayerTimes.currentPrayer() == "fajr"
@@ -339,7 +301,7 @@ class CustomCard extends StatelessWidget {
                                                               timefontsize,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: Colors.green,
+                                                          color: Colors.red,
                                                         ),
                                                       )
                                                     : const CircularProgressIndicator(),
@@ -355,3 +317,35 @@ class CustomCard extends StatelessWidget {
     );
   }
 }
+
+class PrayerTimeVaryList extends StatelessWidget {
+  const PrayerTimeVaryList({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    String start = "12:00";
+    String end = "12:00";
+
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 30,
+        itemBuilder: (context, index) {
+          DateTime now = DateTime.now().add(Duration(days: index));
+          String formattedDate = DateFormat('dd MMM').format(now);
+          return Card(
+            color: Colors.teal.shade300,
+            elevation: 3,
+            child: ListTile(
+              title: Text("$formattedDate\t\t\t\t\t\t\t\t\t"
+                  "Start : "
+                  "$start\t\t\t\t\t\t\t\t\t\t"
+                  "End : "
+                  "$end"),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
