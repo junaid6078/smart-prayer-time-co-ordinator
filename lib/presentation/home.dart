@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/presentation/Masjid.dart';
-
 import 'HomePage.dart';
-import 'ProfilePage.dart';
-import 'SearchPage.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -13,18 +10,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-
   final List<Widget> _pages = [
     HomePage(),
-    // ToDayPage(),
-    // ProfilePage(),
-    MasjidPage(
-      fjr: '12:00',
-      zhr: '12:00',
-      asr: '12:00',
-      mgrb: '12:00',
-      isha: '12:00',
-    ),
+    MasjidListPage(),
+
   ];
 
   @override
@@ -40,9 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         items: [
           buildNavigationBarItem(Icons.home, 'Home'),
-          // buildNavigationBarItem(Icons.today, 'To Day'),
-          // buildNavigationBarItem(Icons.person, 'Profile'),
-          buildNavigationBarItem(Icons.location_on, 'Masjid')
+          buildNavigationBarItem(Icons.location_on, 'Masjid'),
         ],
       ),
     );

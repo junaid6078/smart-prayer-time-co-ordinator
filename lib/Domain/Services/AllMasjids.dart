@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../Entity/PrayerTiming.dart';
+import '../Entity/Masjids.dart';
 
-Future<List<PrayerTiming>> getAllPrayerTimings() async {
+Future<List<Masjid>> getAllMasjids() async {
   final response =
-      await http.get(Uri.parse('http://192.168.10.219:8080/api/prayertimings'));
+      await http.get(Uri.parse('http://localhost:5000/api/masjids'));
 
   if (response.statusCode == 200) {
     // Parse the JSON response
@@ -15,9 +15,8 @@ Future<List<PrayerTiming>> getAllPrayerTimings() async {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
-    return jsonList.map((json) => PrayerTiming.fromJson(json)).toList();
+    return jsonList.map((json) => Masjid.fromJson(json)).toList();
   } else {
     throw Exception('Failed to load prayer timings');
   }
 }
-

@@ -1,11 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/Domain/Services/prayertimevary.dart';
 import 'package:fyp/presentation/TodayDetailPage.dart';
-import 'dart:async';
 import 'package:prayers_times/prayers_times.dart';
 import 'package:intl/intl.dart';
-import '../Domain/Entity/PrayerTiming.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,74 +18,31 @@ class _HomePageState extends State<HomePage> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+
       appBar: AppBar(
         title: Text(
           "Home",
           style: TextStyle(fontSize: height * 0.03),
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          CustomCard(height: height * 0.3, width: width),
-          Text(
-            "Coming Prayer Times",
-            style: TextStyle(fontSize: height * 0.02),
-          ),
-          const PrayerTimeVaryList(),
-          // PrayerTimingList(),
+          CustomCard(),
         ],
       ),
     );
   }
 }
 
-class PrayerTimeVaryList extends StatelessWidget {
-  const PrayerTimeVaryList({Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    String start = "12:00";
-    String end = "12:00";
-
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 30,
-        itemBuilder: (context, index) {
-          DateTime now = DateTime.now().add(Duration(days: index));
-          String formattedDate = DateFormat('dd MMM').format(now);
-          return Card(
-            color: Colors.teal.shade300,
-            elevation: 3,
-            child: ListTile(
-              title: Text("$formattedDate\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                  "Start : "
-                  "$start\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                  "End : "
-                  "$end"),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
 class CustomCard extends StatelessWidget {
-  final double height;
-  final double width;
-
   const CustomCard({
     super.key,
-    required this.height,
-    required this.width,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color startpray = Colors.green;
-    Color endpray = Colors.red;
-    double startfontsize = height * 0.08;
-    double timefontsize = height * 0.1;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     // Define the geographical coordinates for the location
     Coordinates coordinates = Coordinates(24.8607, 67.0011);
 
@@ -104,7 +58,13 @@ class CustomCard extends StatelessWidget {
       locationName: 'Asia/Karachi',
     );
 
-    String Date = DateFormat('dd MMM yyyy').format(DateTime.now());
+    DateTime now = DateTime.now();
+    String Date = DateFormat.yMMMMEEEEd().format(now);
+
+    double prayTimeFontSize = height * 0.05;
+
+    DateTime dt1 = DateTime.parse("2021-12-23 11:47:00");
+    DateTime dt2 = DateTime.parse("2018-09-12 10:57:00");
 
     String current = prayerTimes.currentPrayer() == "dhuhr"
         ? "ظھر"
@@ -119,238 +79,273 @@ class CustomCard extends StatelessWidget {
                         : prayerTimes.currentPrayer() == "sunrise"
                             ? "صبح بخیر"
                             : "شب بخیر";
-
-    return SizedBox(
-      height: height,
+    return Container(
+      height: height * 0.6,
       width: width,
-      child: Card(
-        color: const Color(0xff0f9690),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            GestureDetector(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+      margin: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.teal.withOpacity(0.2),
+        border: Border.all(
+          color: Colors.teal,
+        ),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(width * 0.5),
+          topRight: Radius.circular(width * 0.5),
+        ),
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: height * 0.05,
+          ),
+          AutoSizeText(
+            current,
+            style: TextStyle(
+              fontSize: height * 0.05,
+            ),
+          ),
+          SizedBox(
+            height: height * 0.05,
+          ),
+          SizedBox(
+            height: height * 0.05,
+            width: width * 0.5,
+            child: Card(
+              child: Center(
+                child: AutoSizeText(
+                  Date,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: height * 0.1,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
                 children: [
-                  AutoSizeText(Date, style: TextStyle(fontSize: 18),),
-                  AutoSizeText(
-                    "$current",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: height * 0.2,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
+                  Container(
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(24.0),
                     ),
+                    child: Center(
+                      child: AutoSizeText(
+                        "ابتدا",
+                        style: TextStyle(
+                          fontSize: height * 0.1,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  Container(
+                    height: height * 0.1,
+                    width: width * 0.4,
+                    decoration: BoxDecoration(),
+                    child: prayerTimes.currentPrayer() == "isha"
+                        ? AutoSizeText(
+                            '${TimeOfDay.fromDateTime(prayerTimes.ishaStartTime!).format(context)}',
+                            style: TextStyle(
+                              fontSize: prayTimeFontSize,
+                              color: Colors.black,
+                            ),
+                          )
+                        : prayerTimes.currentPrayer() == "maghrib"
+                            ? AutoSizeText(
+                                '${TimeOfDay.fromDateTime(prayerTimes.maghribStartTime!).format(context)}',
+                                style: TextStyle(
+                                  fontSize: prayTimeFontSize,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : prayerTimes.currentPrayer() == "asr"
+                                ? AutoSizeText(
+                                    '${TimeOfDay.fromDateTime(prayerTimes.asrStartTime!).format(context)}',
+                                    style: TextStyle(
+                                      fontSize: prayTimeFontSize,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : prayerTimes.currentPrayer() == "dhuhr"
+                                    ? AutoSizeText(
+                                        '${TimeOfDay.fromDateTime(prayerTimes.dhuhrStartTime!).format(context)}',
+                                        style: TextStyle(
+                                          fontSize: prayTimeFontSize,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : prayerTimes.currentPrayer() == "fajr"
+                                        ? AutoSizeText(
+                                            '${TimeOfDay.fromDateTime(prayerTimes.fajrStartTime!).format(context)}',
+                                            style: TextStyle(
+                                              fontSize: prayTimeFontSize,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )
+                                        : prayerTimes.currentPrayer() ==
+                                                'sunrise'
+                                            ? AutoSizeText(
+                                                '${TimeOfDay.fromDateTime(prayerTimes.sunrise!).format(context)}',
+                                                style: TextStyle(
+                                                  fontSize: prayTimeFontSize,
+                                                  color: Colors.black,
+                                                ),
+                                              )
+                                            : prayerTimes.currentPrayer() ==
+                                                    'ishabefore'
+                                                ? Center(
+                                                    child: AutoSizeText(
+                                                      '${TimeOfDay.fromDateTime(prayerTimes.ishaStartTime!).format(context)}',
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            prayTimeFontSize,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : const CircularProgressIndicator(),
                   ),
                 ],
               ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AboutTodayPage(
-                      date: DateTime.now().toUtc().toString(),
-                      fjr: TimeOfDay.fromDateTime(prayerTimes.fajrStartTime!)
-                          .format(context),
-                      zhr: TimeOfDay.fromDateTime(prayerTimes.dhuhrStartTime!)
-                          .format(context),
-                      asr: TimeOfDay.fromDateTime(prayerTimes.asrStartTime!)
-                          .format(context),
-                      mgrb:
-                          TimeOfDay.fromDateTime(prayerTimes.maghribStartTime!)
-                              .format(context),
-                      isha: TimeOfDay.fromDateTime(prayerTimes.ishaStartTime!)
-                          .format(context),
-                      weekday: DateTime.now().weekday.toString(),
-                      hijridate: '12',
-                      hijrimonth: '12',
-                      hijriyear: '2000',
+              Column(
+                children: [
+                  Container(
+                    height: height * 0.05,
+                    width: width * 0.4,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                    child: Center(
+                      child: AutoSizeText(
+                        "انتہا",
+                        style: TextStyle(
+                          fontSize: 36,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                );
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  height: height * 0.45,
-                  width: width * 0.45,
-                  child: Card(
-                    color: Colors.teal.shade300,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AutoSizeText(
-                          "Start",
-                          style: TextStyle(
-                            fontSize: startfontsize,
-                          ),
-                        ),
-                        prayerTimes.currentPrayer() == "isha"
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  Container(
+                    height: height * 0.1,
+                    width: width * 0.4,
+                    decoration: BoxDecoration(),
+                    child: prayerTimes.currentPrayer() == "isha"
+                        ? AutoSizeText(
+                            '${TimeOfDay.fromDateTime(prayerTimes.ishaEndTime!).format(context)}',
+                            style: TextStyle(
+                              fontSize: prayTimeFontSize,
+                              color: Colors.black,
+                            ),
+                          )
+                        : prayerTimes.currentPrayer() == "maghrib"
                             ? AutoSizeText(
-                                '${TimeOfDay.fromDateTime(prayerTimes.ishaStartTime!).format(context)}',
+                                '${TimeOfDay.fromDateTime(prayerTimes.maghribEndTime!).format(context)}',
                                 style: TextStyle(
-                                  fontSize: timefontsize,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: prayTimeFontSize,
                                   color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               )
-                            : current == "maghrib"
+                            : prayerTimes.currentPrayer() == "asr"
                                 ? AutoSizeText(
-                                    '${TimeOfDay.fromDateTime(prayerTimes.maghribStartTime!).format(context)}',
+                                    '${TimeOfDay.fromDateTime(prayerTimes.asrEndTime!).format(context)}',
                                     style: TextStyle(
-                                      fontSize: timefontsize,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: prayTimeFontSize,
                                       color: Colors.black,
-                                    ),
-                                  )
-                                : prayerTimes.currentPrayer() == "asr"
-                                    ? AutoSizeText(
-                                        '${TimeOfDay.fromDateTime(prayerTimes.asrStartTime!).format(context)}',
-                                        style: TextStyle(
-                                          fontSize: timefontsize,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    : prayerTimes.currentPrayer() == "dhuhr"
-                                        ? AutoSizeText(
-                                            '${TimeOfDay.fromDateTime(prayerTimes.dhuhrStartTime!).format(context)}',
-                                            style: TextStyle(
-                                              fontSize: timefontsize,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                          )
-                                        : prayerTimes.currentPrayer() == "fajr"
-                                            ? AutoSizeText(
-                                                '${TimeOfDay.fromDateTime(prayerTimes.fajrStartTime!).format(context)}',
-                                                style: TextStyle(
-                                                  fontSize: timefontsize,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.green,
-                                                ),
-                                              )
-                                            : prayerTimes.currentPrayer() ==
-                                                    'sunrise'
-                                                ? AutoSizeText(
-                                                    '${TimeOfDay.fromDateTime(prayerTimes.sunrise!).format(context)}',
-                                                    style: TextStyle(
-                                                      fontSize: timefontsize,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.green,
-                                                    ),
-                                                  )
-                                                : prayerTimes.currentPrayer() ==
-                                                        'ishabefore'
-                                                    ? AutoSizeText(
-                                                        '${TimeOfDay.fromDateTime(prayerTimes.ishaEndTime!).format(context)}',
-                                                        style: TextStyle(
-                                                          fontSize:
-                                                              timefontsize,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.green,
-                                                        ),
-                                                      )
-                                                    : const CircularProgressIndicator(),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: height * 0.45,
-                  width: width * 0.45,
-                  child: Card(
-                    color: Colors.teal.shade300,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AutoSizeText(
-                          "End",
-                          style: TextStyle(
-                            fontSize: startfontsize,
-                          ),
-                        ),
-                        prayerTimes.currentPrayer() == "isha"
-                            ? AutoSizeText(
-                                '${TimeOfDay.fromDateTime(prayerTimes.ishaEndTime!).format(context)}',
-                                style: TextStyle(
-                                  fontSize: timefontsize,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              )
-                            : prayerTimes.currentPrayer() == "maghrib"
-                                ? AutoSizeText(
-                                    '${TimeOfDay.fromDateTime(prayerTimes.maghribEndTime!).format(context)}',
-                                    style: TextStyle(
-                                      fontSize: timefontsize,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.red,
                                     ),
                                   )
-                                : prayerTimes.currentPrayer() == "asr"
+                                : prayerTimes.currentPrayer() == "dhuhr"
                                     ? AutoSizeText(
-                                        '${TimeOfDay.fromDateTime(prayerTimes.asrEndTime!).format(context)}',
+                                        '${TimeOfDay.fromDateTime(prayerTimes.dhuhrEndTime!).format(context)}',
                                         style: TextStyle(
-                                          fontSize: timefontsize,
+                                          fontSize: prayTimeFontSize,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.red,
                                         ),
                                       )
-                                    : prayerTimes.currentPrayer() == "dhuhr"
+                                    : prayerTimes.currentPrayer() == "fajr"
                                         ? AutoSizeText(
-                                            '${TimeOfDay.fromDateTime(prayerTimes.dhuhrEndTime!).format(context)}',
+                                            '${TimeOfDay.fromDateTime(prayerTimes.fajrEndTime!).format(context)}',
                                             style: TextStyle(
-                                              fontSize: timefontsize,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: prayTimeFontSize,
                                               color: Colors.black,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           )
-                                        : prayerTimes.currentPrayer() == "fajr"
+                                        : prayerTimes.currentPrayer() ==
+                                                'sunrise'
                                             ? AutoSizeText(
-                                                '${TimeOfDay.fromDateTime(prayerTimes.fajrEndTime!).format(context)}',
+                                                '${TimeOfDay.fromDateTime(prayerTimes.sunrise!).format(context)}',
                                                 style: TextStyle(
-                                                  fontSize: timefontsize,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.red,
+                                                  fontSize: prayTimeFontSize,
+                                                  color: Colors.black,
                                                 ),
                                               )
                                             : prayerTimes.currentPrayer() ==
-                                                    'sunrise'
-                                                ? AutoSizeText(
-                                                    '${TimeOfDay.fromDateTime(prayerTimes.sunrise!).format(context)}',
-                                                    style: TextStyle(
-                                                      fontSize: timefontsize,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.red,
+                                                    'ishabefore'
+                                                ? Center(
+                                                    child: AutoSizeText(
+                                                      '${TimeOfDay.fromDateTime(prayerTimes.fajrStartTime!).format(context)}',
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            prayTimeFontSize,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
                                                   )
-                                                : prayerTimes.currentPrayer() ==
-                                                        'ishabefore'
-                                                    ? AutoSizeText(
-                                                        '${TimeOfDay.fromDateTime(prayerTimes.fajrStartTime!).format(context)}',
-                                                        style: TextStyle(
-                                                          fontSize:
-                                                              timefontsize,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.green,
-                                                        ),
-                                                      )
-                                                    : const CircularProgressIndicator(),
-                      ],
-                    ),
+                                                : const CircularProgressIndicator(),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: height * 0.03,
+          ),
+          Container(
+            height: height * 0.05,
+            width: width * 0.8,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              color: Colors.white,
             ),
-          ],
-        ),
+            child: Center(
+              child: AutoSizeText(
+                "Remaining Time          ${dt1.difference(dt2).runtimeType}",
+                style: TextStyle(
+                  fontSize: width * 0.05,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

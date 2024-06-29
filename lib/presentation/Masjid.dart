@@ -1,32 +1,52 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:auto_size_text/auto_size_text.dart';
+import '../Domain/Entity/Masjids.dart';
+import 'MasjidDetailPage.dart';
 
-class MasjidPage extends StatefulWidget {
-  final String fjr;
-  final String zhr;
-  final String asr;
-  final String mgrb;
-  final String isha;
-  const MasjidPage({
-    Key? key,
-    required this.fjr,
-    required this.zhr,
-    required this.asr,
-    required this.mgrb,
-    required this.isha,
-  }) : super(key: key);
+class MasjidListPage extends StatefulWidget {
+  const MasjidListPage({Key? key}) : super(key: key);
 
   @override
-  State<MasjidPage> createState() => _MasjidPageState();
+  _MasjidListPageState createState() => _MasjidListPageState();
 }
 
-class _MasjidPageState extends State<MasjidPage> {
-  int? _expandedIndex;
+class _MasjidListPageState extends State<MasjidListPage> {
+  late List<Masjid> masjids = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMasjids();
+  }
+
+  Future<void> fetchMasjids() async {
+    try {
+      final response = await http
+          .get(Uri.parse('http://10.0.2.2:5000/api/masjids/2024-07-8'));
+
+      if (response.statusCode == 200) {
+        List<Masjid> fetchedMasjids = (json.decode(response.body) as List)
+            .map((data) => Masjid.fromJson(data))
+            .toList();
+
+        setState(() {
+          masjids = fetchedMasjids;
+        });
+      } else {
+        throw Exception('Failed to load masjids: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching masjids: $e');
+      // Optionally, show an error message or retry mechanism here
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -34,84 +54,33 @@ class _MasjidPageState extends State<MasjidPage> {
           style: TextStyle(fontSize: height * 0.03),
         ),
       ),
-      body: ListView.builder(
-        physics: ScrollPhysics(),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Card(
-            color: Color(0xff0f9690),
-            child: ExpansionTile(
-              trailing: Text(
-                (index + 1).toString(),
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              title: AutoSizeText(
-                "جامع مسجد عمر فاروق رضہ",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.right,
-              ),
-              subtitle: AutoSizeText(
-                "secotor 11A North Karachi",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              children: [
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Fajar: ${widget.fjr}",
-                        style: TextStyle(fontSize: 16),
-                      ),
+      body: masjids.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: masjids.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    masjids[index].name,
+                    style: TextStyle(
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Zuhar: ${widget.zhr}",
-                        style: TextStyle(fontSize: 16),
+                  ),
+                  subtitle: Text(masjids[index].address),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MasjidDetailPage(masjid: masjids[index]),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Asr: ${widget.asr}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Magrib: ${widget.mgrb}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Isha: ${widget.isha}",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
-                // Add more details or widgets as needed
-              ],
+                    );
+                  },
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

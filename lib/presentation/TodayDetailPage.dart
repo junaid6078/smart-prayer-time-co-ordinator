@@ -9,9 +9,6 @@ class AboutTodayPage extends StatefulWidget {
   final String mgrb;
   final String isha;
   final String weekday;
-  final String hijridate;
-  final String hijrimonth;
-  final String hijriyear;
 
   AboutTodayPage(
       {super.key,
@@ -21,10 +18,7 @@ class AboutTodayPage extends StatefulWidget {
       required this.asr,
       required this.mgrb,
       required this.isha,
-      required this.weekday,
-      required this.hijridate,
-      required this.hijrimonth,
-      required this.hijriyear});
+      required this.weekday});
 
   @override
   State<AboutTodayPage> createState() => _AboutTodayPageState();
@@ -33,55 +27,247 @@ class AboutTodayPage extends StatefulWidget {
 class _AboutTodayPageState extends State<AboutTodayPage> {
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "About Today",
-          style:
-              TextStyle(color: Color(0xff0f9690), fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: height * 0.03),
         ),
-        centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Card(
-            color: Color(0xff0f9690),
-            child: ListTile(
-              title: Text(widget.date),
-              subtitle: widget.weekday == "1"
-                  ? Text("Monday")
-                  : widget.weekday == "2"
-                      ? Text("Tuesday")
-                      : widget.weekday == "3"
-                          ? Text("Wednesday")
-                          : widget.weekday == "4"
-                              ? Text("Thursday")
-                              : widget.weekday == "5"
-                                  ? Text("Friday")
-                                  : widget.weekday == "6"
-                                      ? Text("Saturday")
-                                      : Text("Sunday"),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: height * 0.15,
+              width: width * 0.8,
+              child: Card(
+                color: Color(0xff0f9690),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          ListTile(
-            title: Text('fajr : \t\t\t\t\t' + widget.fjr),
-          ),
-          ListTile(
-            title: Text('zuhr : \t\t\t\t\t' + widget.zhr),
-          ),
-          ListTile(
-            title: Text('asr : \t\t\t\t\t' + widget.asr),
-          ),
-          ListTile(
-            title: Text('maghrib : \t\t\t\t\t' + widget.mgrb),
-          ),
-          ListTile(
-            title: Text('isha : \t\t\t\t\t' + widget.isha),
-          ),
-        ],
+            SizedBox(
+              height: height * 0.1,
+              width: width * 0.8,
+              child: Card(
+                color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            "Fajar Prayer",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Card(
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            widget.fjr,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.1,
+              width: width * 0.8,
+              child: Card(
+                color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            "Zuhar Prayer",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Card(
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            widget.zhr,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.1,
+              width: width * 0.8,
+              child: Card(
+                color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            "Asar Prayer",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Card(
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            widget.asr,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.1,
+              width: width * 0.8,
+              child: Card(
+                color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            "Magrib Prayer",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Card(
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            widget.mgrb,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.1,
+              width: width * 0.8,
+              child: Card(
+                color: Colors.teal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            "Isha Prayer",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                      width: width * 0.3,
+                      child: Card(
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            widget.isha,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
